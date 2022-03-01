@@ -57,8 +57,9 @@ suite('Functional Tests', function () {
         })
         .end(function (err, res) {
           assert.equal(res.status, 200, "The API Status should be 200");
-          assert.typeOf(res.type, 'string') && assert.equal(res.type, 'application/json');
+          assert.equal(res.type, 'application/json');
           assert.equal(res.body.name, "Giovanni", "The Name should be " + res.body.name);
+          assert.equal(res.body.surname, "da Verrazzano", "The surname should be da Verrazzano");
           done();
         
       })
