@@ -35,19 +35,33 @@ suite('Functional Tests', function () {
     test('Send {surname: "Colombo"}', function (done) {
       chai
         .request(server)
-        .put('/travellers?surname=Colombo')
-
+        .put('/travellers')
+        .send({
+          "surname": "Colombo"
+        })
         .end(function (err, res) {
           assert.equal(res.status, 200);
-
+          assert.equal(res.type, 'application/json');
+          assert.equal(res.body.name, 'Cristoforo');
+          assert.equal(res.body.surname, 'Colombo');
           done();
         });
     });
     // #4
     test('Send {surname: "da Verrazzano"}', function (done) {
-      assert.fail();
-
-      done();
+      chai
+        .request(server)
+        .put('/travellers')
+        .send({
+          "surname": "da Verrazzano"
+        })
+        .end(function (err, res) {
+          assert.equal(res.status, 200, "The API Status should be 200");
+          assert.typeOf(res.type, 'string') && assert.equal(res.type, 'application/json');
+          assert.equal(res.body.name, "Giovanni", "The Name should be " + res.body.name);
+          done();
+        
+      })
     });
   });
 });
