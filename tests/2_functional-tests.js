@@ -71,12 +71,13 @@ const Browser = require('zombie');
 
 suite('Functional Tests with Zombie.js', function () {
   this.timeout(5000);
+  Browser.site = 'https://boilerplate-mochachai.your-username.repl.co'; // Your URL here
 
 
 
   suite('Headless browser', function () {
     test('should have a working "site" property', function() {
-      assert.isNotNull(browser.site);
+      assert.isNotNull(Browser.site);
     });
   });
 
