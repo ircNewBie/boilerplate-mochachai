@@ -67,38 +67,47 @@ suite('Functional Tests', function () {
   });
 });
 
-const browser = require('zombie');
+const Browser = require('zombie');
 
 suite('Functional Tests with Zombie.js', function () {
   this.timeout(5000);
-  browser.site = 'https://boilerplate-mochachai.your-username.repl.co'; // Your URL here
+  Browser.site = 'https://freecodecamp-qa-cert.glitch.me'; // Your URL here
 
   suite('Headless browser', function () {
-    test('should have a working "site" property', function() {
-      assert.isNotNull(browser.site);
+    test('should have a working "site" property', function () {
+      assert.isNotNull(Browser.site);
     });
   });
 
-  suite('"Famous Italian Explorers" form', function () {
-    // #5
-    test('Submit the surname "Colombo" in the HTML form', function (done) {
-      browser.fill('surname', 'Colombo').then(() => {
-        browser.pressButton('submit', () => {
+  suite("e2e Testing with Zombie.js", function () {
+    const browser = new Browser();
+      suiteSetup(function(done) {
+      return browser.visit('/', done);
+    });
+    suite('"Famous Italian Explorers" form', function () {
+      // #5
+      test('submit "surname" : "Colombo" - write your e2e test...', function (done) {
+        browser.fill('surname', 'Colombo').pressButton('submit', function() {
           browser.assert.success();
           browser.assert.text('span#name', 'Cristoforo');
           browser.assert.text('span#surname', 'Colombo');
-          browser.assert.elements('span#dates', 1);
-          done();
+          browser.assert.element('span#dates', 1);
+          done(); 
         });
+        done();
       });
     });
-
-
-    
     // #6
+  
     test('Submit the surname "Vespucci" in the HTML form', function (done) {
-      assert.fail();
 
+      browser.fill('surname', 'Vespucci').pressButton('submit', function() {
+        browser.assert.success();
+        browser.assert.text('span#name', 'Amerigo');
+        browser.assert.text('span#surname', 'Vespucci');
+        browser.assert.element('span#dates', 1);
+        done(); 
+      });
       done();
     });
   });
