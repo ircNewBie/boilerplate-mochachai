@@ -54,14 +54,13 @@ suite('Functional Tests', function () {
         .put('/travellers')
         .send({
           "surname": "da Verrazzano"
-        })
+          })
         .end(function (err, res) {
           assert.equal(res.status, 200, "The API Status should be 200");
           assert.equal(res.type, 'application/json');
           assert.equal(res.body.name, "Giovanni", "The Name should be " + res.body.name);
           assert.equal(res.body.surname, "da Verrazzano", "The surname should be da Verrazzano");
           done();
-        
       })
     });
   });
@@ -71,7 +70,7 @@ const Browser = require('zombie');
 
 suite('Functional Tests with Zombie.js', function () {
   this.timeout(5000);
-  Browser.site = 'https://freecodecamp-qa-cert.glitch.me'; // Your URL here
+  Browser.site = 'https://boilerplate-mochachai.nikkipeel.repl.co'; // Your URL here
 
   suite('Headless browser', function () {
     test('should have a working "site" property', function () {
@@ -87,28 +86,31 @@ suite('Functional Tests with Zombie.js', function () {
     suite('"Famous Italian Explorers" form', function () {
       // #5
       test('submit "surname" : "Colombo" - write your e2e test...', function (done) {
-        browser.fill('surname', 'Colombo').pressButton('submit', function() {
+        browser.fill('surname', 'Colombo')
+          .then (() => browser.pressButton('submit', function () {
           browser.assert.success();
           browser.assert.text('span#name', 'Cristoforo');
           browser.assert.text('span#surname', 'Colombo');
           browser.assert.element('span#dates', 1);
           done(); 
-        });
-        done();
+        }))
+      
       });
     });
     // #6
-  
     test('Submit the surname "Vespucci" in the HTML form', function (done) {
 
-      browser.fill('surname', 'Vespucci').pressButton('submit', function() {
-        browser.assert.success();
-        browser.assert.text('span#name', 'Amerigo');
-        browser.assert.text('span#surname', 'Vespucci');
-        browser.assert.element('span#dates', 1);
-        done(); 
-      });
-      done();
+ 
+
+      browser.fill('surname', 'Vespucci')
+        .then(() => browser.pressButton('submit', function () {
+          browser.assert.success();
+          browser.assert.text('span#name', 'Amerigo');
+          browser.assert.text('span#surname', 'Vespucci');
+          browser.assert.element('span#dates', 1);
+          done();
+        }));
+  
     });
   });
 });
